@@ -2,7 +2,7 @@
 
 echo
 echo "--------------------------------------"
-echo "        exthmUI 13.0 Buildbot         "
+echo "        AlphaDroid 13.0 Buildbot      "
 echo "                  by                  "
 echo "             kindle4jerry             "
 echo "--------------------------------------"
@@ -10,18 +10,18 @@ echo
 
 set -e
 
-BL=$PWD/treble_build_exthm
+BL=$PWD/treble_build_alphadroid
 BD=$HOME/builds
 
 initRepos() {
     if [ ! -d .repo ]; then
         echo "--> Initializing workspace"
-        repo init -u https://github.com/exTHmUI/android -b Tenshi --depth=1
+        repo init -u https://github.com/alphadroid-project/manifest -b alpha-13 --git-lfs --depth=1
         echo
 
         echo "--> Preparing local manifest"
         mkdir -p .repo/local_manifests
-        cp $BL/manifest.xml .repo/local_manifests/exthm.xml
+        cp $BL/manifest.xml .repo/local_manifests/alphadroid.xml
         echo
     fi
 }
@@ -39,8 +39,8 @@ applyPatches() {
 
     echo "--> Applying TrebleDroid patches"
     cd device/phh/treble
-    cp $BL/exthm.mk .
-    bash generate.sh exthm
+    cp $BL/alphadroid.mk .
+    bash generate.sh alphadroid
     cd ../../..
     bash $BL/apply-patches.sh $BL trebledroid
     echo
@@ -96,9 +96,9 @@ buildVndkliteVariant() {
 
 generatePackages() {
     echo "--> Generating packages"
-    xz -cv $BD/system-treble_arm64_bvN.img -T0 > $BD/exthmUI_arm64-ab-7.6-unofficial-$BUILD_DATE.img.xz
-#    xz -cv $BD/system-treble_arm64_bvN-vndklite.img -T0 > $BD/exthmUI_arm64-ab-vndklite-7.6-unofficial-$BUILD_DATE.img.xz
-#    xz -cv $BD/system-treble_arm64_bvN-slim.img -T0 > $BD/exthmUI_arm64-ab-slim-7.6-unofficial-$BUILD_DATE.img.xz
+    xz -cv $BD/system-treble_arm64_bvN.img -T0 > $BD/AlphaDroid_arm64-ab-7.6-unofficial-$BUILD_DATE.img.xz
+#    xz -cv $BD/system-treble_arm64_bvN-vndklite.img -T0 > $BD/AlphaDroid_arm64-ab-vndklite-7.6-unofficial-$BUILD_DATE.img.xz
+#    xz -cv $BD/system-treble_arm64_bvN-slim.img -T0 > $BD/AlphaDroid_arm64-ab-slim-7.6-unofficial-$BUILD_DATE.img.xz
     rm -rf $BD/system-*.img
     echo
 }
@@ -110,7 +110,7 @@ initRepos
 syncRepos
 applyPatches
 setupEnv
-buildSTrebleApp
+#buildSTrebleApp
 buildVariant
 #buildSlimVariant
 #buildVndkliteVariant
